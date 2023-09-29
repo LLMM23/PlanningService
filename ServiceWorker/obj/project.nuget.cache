@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "qYt6wxt6FXIRF+6LczybOYXL0YxmsF0ELFazuMFJii4Tri20A8sGp/AmiCXyCywECvXToPqFzsV8JUCnYm0Qbw==",
+  "dgSpecHash": "fYhovj5bu1ZppIOYulpltnyz9XvKuZd+5h/QwO8Jq1VR1Zk3G5L8Rn2vqRZXlsT/Rp/r7j+RbtLvJ6M0yLJlDQ==",
   "success": true,
-  "projectFilePath": "/Users/leor/Desktop/Projects/taxaservice/ServiceWorker/ServiceWorker.csproj",
+  "projectFilePath": "/Users/leor/Desktop/Projects/planservice/ServiceWorker/ServiceWorker.csproj",
   "expectedPackageFiles": [
     "/Users/leor/.nuget/packages/microsoft.extensions.configuration/7.0.0/microsoft.extensions.configuration.7.0.0.nupkg.sha512",
     "/Users/leor/.nuget/packages/microsoft.extensions.configuration.abstractions/7.0.0/microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",
@@ -29,10 +29,13 @@
     "/Users/leor/.nuget/packages/microsoft.extensions.options/7.0.1/microsoft.extensions.options.7.0.1.nupkg.sha512",
     "/Users/leor/.nuget/packages/microsoft.extensions.options.configurationextensions/7.0.0/microsoft.extensions.options.configurationextensions.7.0.0.nupkg.sha512",
     "/Users/leor/.nuget/packages/microsoft.extensions.primitives/7.0.0/microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "/Users/leor/.nuget/packages/rabbitmq.client/6.5.0/rabbitmq.client.6.5.0.nupkg.sha512",
     "/Users/leor/.nuget/packages/system.diagnostics.diagnosticsource/7.0.1/system.diagnostics.diagnosticsource.7.0.1.nupkg.sha512",
     "/Users/leor/.nuget/packages/system.diagnostics.eventlog/7.0.0/system.diagnostics.eventlog.7.0.0.nupkg.sha512",
+    "/Users/leor/.nuget/packages/system.memory/4.5.5/system.memory.4.5.5.nupkg.sha512",
     "/Users/leor/.nuget/packages/system.text.encodings.web/7.0.0/system.text.encodings.web.7.0.0.nupkg.sha512",
-    "/Users/leor/.nuget/packages/system.text.json/7.0.0/system.text.json.7.0.0.nupkg.sha512"
+    "/Users/leor/.nuget/packages/system.text.json/7.0.0/system.text.json.7.0.0.nupkg.sha512",
+    "/Users/leor/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512"
   ],
   "logs": []
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/leor/Desktop/Projects/taxaservice/ServiceWorker/ServiceWorker.csproj": {}
+    "/Users/leor/Desktop/Projects/planservice/ServiceWorker/ServiceWorker.csproj": {}
   },
   "projects": {
-    "/Users/leor/Desktop/Projects/taxaservice/ServiceWorker/ServiceWorker.csproj": {
+    "/Users/leor/Desktop/Projects/planservice/ServiceWorker/ServiceWorker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/leor/Desktop/Projects/taxaservice/ServiceWorker/ServiceWorker.csproj",
+        "projectUniqueName": "/Users/leor/Desktop/Projects/planservice/ServiceWorker/ServiceWorker.csproj",
         "projectName": "ServiceWorker",
-        "projectPath": "/Users/leor/Desktop/Projects/taxaservice/ServiceWorker/ServiceWorker.csproj",
+        "projectPath": "/Users/leor/Desktop/Projects/planservice/ServiceWorker/ServiceWorker.csproj",
         "packagesPath": "/Users/leor/.nuget/packages/",
-        "outputPath": "/Users/leor/Desktop/Projects/taxaservice/ServiceWorker/obj/",
+        "outputPath": "/Users/leor/Desktop/Projects/planservice/ServiceWorker/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/leor/.nuget/NuGet/NuGet.Config"
@@ -42,6 +42,10 @@
             "Microsoft.Extensions.Hosting": {
               "target": "Package",
               "version": "[7.0.1, )"
+            },
+            "RabbitMQ.Client": {
+              "target": "Package",
+              "version": "[6.5.0, )"
             }
           },
           "imports": [
