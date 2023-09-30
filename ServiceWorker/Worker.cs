@@ -1,87 +1,94 @@
+using System;
+using System.IO;
 using System.Text;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-
-namespace ServiceWorker;
-
-public class Worker : BackgroundService
+namespace ServiceWorker
 {
-    private string _workPath = string.Empty;
-    private readonly ILogger<Worker> _logger;
-
-    /*
-    public Worker(ILogger<Worker> logger)
+    public class Worker : BackgroundService
     {
-        _logger = logger;
-        // <indsæt noget RabbitMQ connectionfactory kode her!>
-        var factory = new ConnectionFactory { HostName = "localhost" }; //Ændring 
+        private string _workPath = string.Empty;
+        private string _mqHost = string.Empty;
 
-    }
-    */
-
-    public Worker(ILogger<Worker> logger, IConfiguration configuration)
-    {
-        _logger = logger;
-        _workPath = configuration["WorkPath"] ?? String.Empty;
-        var factory = new ConnectionFactory { HostName = "localhost" }; //Husk ændring 
-
-    }
-
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-
-        var factory = new ConnectionFactory { HostName = "localhost" };
-        using var connection = factory.CreateConnection();
-        using var channel = connection.CreateModel();
-
-        channel.QueueDeclare(queue: "hello",
-                            durable: false,
-                            exclusive: false,
-                            autoDelete: false,
-                            arguments: null);
-
-
-        var consumer = new EventingBasicConsumer(channel);
-        consumer.Received += (model, ea) =>
+        private readonly ILogger<Worker> _logger;
+        public Worker(ILogger<Worker> logger, IConfiguration configuration)
         {
-            //PlanDTO - Skal til passes
-            var body = ea.Body.ToArray();
-            var message = Encoding.UTF8.GetString(body);
-        };
-        channel.BasicConsume(queue: "hello",
-                            autoAck: true,
-                            consumer: consumer);
+            _logger = logger;
+            _workPath = configuration["WorkPath"] ?? string.Empty;
+            _mqHost = configuration["MqHost"] ?? string.Empty;
+            _logger.LogInformation($"env: {_workPath}, {_mqHost}");
+        
 
-        while (!stoppingToken.IsCancellationRequested)
-        {
-            _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-            // 1. <indsæt noget RabbitMQ Query + serialiserings kode her!>
-            // 2. <Tilføj BookingDTO fra køen til lokal Repository-klasse!>
-            await Task.Delay(1000, stoppingToken);
         }
 
-    }
-    private void WriteToCsv(string message) //Skriver modtaget instanser til plan.csv fil
-    {
-        //Tjekker først om "_workPatch" eksisterer
-        if (!Directory.Exists(_workPath))
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            Directory.CreateDirectory(_workPath);
+            var factory = new ConnectionFactory { HostName = _mqHost }; //husk at ændre
+            using var connection = factory.CreateConnection();
+            using var channel = connection.CreateModel();
+
+            channel.QueueDeclare(queue: "plan",
+                                durable: false,
+                                exclusive: false,
+                                autoDelete: false,
+                                arguments: null);
+
+
+            var consumer = new EventingBasicConsumer(channel);
+            consumer.Received += (model, ea) =>
+            {
+                // PlanDTO - Skal til passes
+                var body = ea.Body.ToArray();
+                var message = Encoding.UTF8.GetString(body);
+                PlanDTO planDTO = JsonSerializer.Deserialize<PlanDTO>(message);
+
+                WriteToCsv(planDTO);
+            };
+            channel.BasicConsume(queue: "hello",
+                                autoAck: true,
+                                consumer: consumer);
+
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                // 1. <Insert RabbitMQ Query + serialization code here!>
+                // 2. <Tilføj BookingDTO fra køen til lokal Repository-klasse!>
+                await Task.Delay(1000, stoppingToken);
+            }
+
         }
-
-        //Definerer stien/path for vores csv-fil, hvilket er plan.csv
-        var filePath = Path.Combine(_workPath, "plan.csv");
-
-
-        //Skriver beskeden til csv-filen
-        //Dette skal tilpasses den format af vores PlanDTO
-        using (var writer = new StreamWriter(filePath, true))
+        private void WriteToCsv(PlanDTO message) // Skriver modtaget instanser til plan.csv fil
         {
-            writer.WriteLine(message);
+            // Tjekker først om "_workPatch" eksisterer
+            if (!Directory.Exists(_workPath))
+            {
+                Directory.CreateDirectory(_workPath);
+            }
+
+            // Definerer stien/path for vores csv-fil, hvilket er plan.csv
+            var filePath = Path.Combine(_workPath, "Plan.csv");
+
+            // Analyser den modtagne besked og opret en PlanDTO-instans
+            var plan = ParseMessageToPlanDto(message);
+
+            // Skriver PlanDTO instans til CSV-filen
+            using (var writer = new StreamWriter(filePath, true))
+            {
+                writer.WriteLine(plan);
+            }
+        }
+        // Metode til at analysere den modtagne besked og oprette en PlanDTO-instans
+        private string ParseMessageToPlanDto(PlanDTO plan)
+        {
+            var csvline = $"{plan.CustomerName}, {plan.StartTime}, {plan.StartLocation},{plan.EndLocation}";
+            return csvline;
         }
     }
-
-
-
 }
