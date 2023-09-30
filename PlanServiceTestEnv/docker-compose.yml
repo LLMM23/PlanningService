@@ -1,0 +1,42 @@
+version: '3.8'
+services:
+  upload-svc:
+    image: magnusov/taxabookingservice:latest
+    environment:
+      - WorkPath=/srv/plan
+    ports:
+      - "5001:80"
+    networks:
+      - default
+    volumes:
+      - plan:/srv/plan
+
+  list-svc:
+    #image: browndahl/plan-service:latest
+    image: planservice
+    environment:
+      - WorkPath=/srv/plan
+      - MqHost=rabbit-1
+    ports:
+      - "5002:80"
+    networks:
+      - default
+    volumes:
+      - plan:/srv/plan
+
+  rabbit:
+    image: rabbitmq:management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - default
+
+volumes:
+  plan:
+    external: false
+
+networks:
+  default:
+    driver: bridge
+    name: projekt
