@@ -87,7 +87,7 @@ namespace ServiceWorker
         // Metode til at analysere den modtagne besked og oprette en PlanDTO-instans
         private string ParseMessageToPlanDto(PlanDTO plan)
         {
-            var csvline = $"{plan.CustomerName}, {plan.StartTime}, {plan.StartLocation},{plan.EndLocation}";
+            var csvline = $"{plan.CustomerName},{plan.StartTime},{plan.StartLocation},{plan.EndLocation}";
             return csvline;
         }
     }
