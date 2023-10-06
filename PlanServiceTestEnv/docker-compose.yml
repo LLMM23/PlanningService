@@ -15,8 +15,8 @@ services:
       - plan:/srv/plan
 
   list-svc:
-    #image: browndahl/plan-service:latest
-    image: planservice
+    image: browndahl/plan-service:latest
+    #image: planservice
     environment:
       - WorkPath=/srv/plan
       - MqHost=rabbitmq
