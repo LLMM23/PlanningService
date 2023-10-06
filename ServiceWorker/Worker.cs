@@ -51,7 +51,7 @@ namespace ServiceWorker
 
                 WriteToCsv(planDTO);
             };
-            channel.BasicConsume(queue: "hello",
+            channel.BasicConsume(queue: "plan",
                                 autoAck: true,
                                 consumer: consumer);
 
