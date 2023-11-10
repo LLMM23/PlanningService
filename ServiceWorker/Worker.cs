@@ -44,6 +44,7 @@ namespace ServiceWorker
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += (model, ea) =>
             {
+                _logger.LogInformation("Plan received, entering state saving flow");
                 // PlanDTO - Skal til passes
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);

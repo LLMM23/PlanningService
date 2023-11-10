@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  upload-svc:
+  booking-svc:
     image: magnusov/taxabookingservice:latest
     environment:
       - WorkPath=/srv/plan
@@ -14,9 +14,8 @@ services:
     volumes:
       - plan:/srv/plan
 
-  list-svc:
-    #image: browndahl/plan-service:latest
-    image: planservice
+  plan-svc:
+    image: magnusov/planservice:latest
     environment:
       - WorkPath=/srv/plan
       - MqHost=rabbitmq
@@ -36,6 +35,34 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
+    networks:
+      - default
+
+  loki:
+    image: grafana/loki
+    container_name: loki
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - default
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - default
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - booking-svc
+      - plan-svc
+    ports:
+    - "4000:4000"
     networks:
       - default
 
