@@ -86,6 +86,7 @@ services:
     depends_on:
       - booking-svc
       - plan-svc
+      - maintenance-svc
     ports:
     - "4000:4000"
     networks:
