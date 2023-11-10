@@ -1,26 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/leor/Desktop/Projects/planservice/ServiceWorker/ServiceWorker.csproj": {}
+    "C:\\Users\\magnu\\source\\repos\\LLMM23\\PlanningService\\ServiceWorker\\ServiceWorker.csproj": {}
   },
   "projects": {
-    "/Users/leor/Desktop/Projects/planservice/ServiceWorker/ServiceWorker.csproj": {
+    "C:\\Users\\magnu\\source\\repos\\LLMM23\\PlanningService\\ServiceWorker\\ServiceWorker.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/leor/Desktop/Projects/planservice/ServiceWorker/ServiceWorker.csproj",
+        "projectUniqueName": "C:\\Users\\magnu\\source\\repos\\LLMM23\\PlanningService\\ServiceWorker\\ServiceWorker.csproj",
         "projectName": "ServiceWorker",
-        "projectPath": "/Users/leor/Desktop/Projects/planservice/ServiceWorker/ServiceWorker.csproj",
-        "packagesPath": "/Users/leor/.nuget/packages/",
-        "outputPath": "/Users/leor/Desktop/Projects/planservice/ServiceWorker/obj/",
+        "projectPath": "C:\\Users\\magnu\\source\\repos\\LLMM23\\PlanningService\\ServiceWorker\\ServiceWorker.csproj",
+        "packagesPath": "C:\\Users\\magnu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\magnu\\source\\repos\\LLMM23\\PlanningService\\ServiceWorker\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/leor/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\magnu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/library-packs": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -43,6 +44,18 @@
               "target": "Package",
               "version": "[7.0.1, )"
             },
+            "NLog": {
+              "target": "Package",
+              "version": "[5.2.5, )"
+            },
+            "NLog.Targets.Loki": {
+              "target": "Package",
+              "version": "[2.1.1, )"
+            },
+            "NLog.Web.AspNetCore": {
+              "target": "Package",
+              "version": "[5.3.5, )"
+            },
             "RabbitMQ.Client": {
               "target": "Package",
               "version": "[6.5.0, )"
@@ -64,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.307/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
