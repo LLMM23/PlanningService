@@ -36,17 +36,23 @@ services:
     image: magnusov/maintenanceservice:latest
     environment:
       - MqHost=rabbitmq
+    depends_on:
+      - plan-svc
+    ports:
+      - "5003:80"
+    networks:
+      - default
 
   plan-db:
-  image: mongo:latest
-  container_name: maintenance-db
-  environment:
-    MONGO_INITDB_ROOT_USERNAME: admin
-    MONGO_INITDB_ROOT_PASSWORD: 1234
-  ports:
-    - "27100:27100"
-  volumes:
-    - mongodb_data_container:/data/db
+    image: mongo:latest
+    container_name: maintenance-db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+    ports:
+      - "27100:27100"
+    volumes:
+      - mongodb_data_container:/data/db
 
   rabbit:
     image: rabbitmq:management
@@ -87,6 +93,8 @@ services:
 
 volumes:
   plan:
+    external: false
+  mongodb_data_container:
     external: false
 
 networks:
