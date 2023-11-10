@@ -58,7 +58,7 @@ namespace ServiceWorker
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                //_logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now); #Midlertidig kommenteret ud
                 // 1. <Insert RabbitMQ Query + serialization code here!>
                 // 2. <Tilføj BookingDTO fra køen til lokal Repository-klasse!>
                 await Task.Delay(1000, stoppingToken);
@@ -88,8 +88,11 @@ namespace ServiceWorker
         // Metode til at analysere den modtagne besked og oprette en PlanDTO-instans
         private string ParseMessageToPlanDto(PlanDTO plan)
         {
-            var csvline = $"{plan.CustomerName}, {plan.StartTime}, {plan.StartLocation},{plan.EndLocation}";
+            var csvline = $"{plan.CustomerName},{plan.StartTime},{plan.StartLocation},{plan.EndLocation}";
             return csvline;
         }
     }
 }
+
+
+
