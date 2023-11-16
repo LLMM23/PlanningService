@@ -43,6 +43,40 @@ services:
     networks:
       - default
 
+
+  auth-svc:
+    image: browndahl/authservice:latest
+    environment:
+      USERSVC: http://usersvc:80
+      VaultURL: http://vault:8201
+      VaultPath: "Auth"
+      VAULTMOUNTPOINT: "secret"
+    ports:
+      - "8080:80"
+    networks:
+      - default
+
+  user-svc:
+    image: browndahl/userservice:latest
+    hostname: usersvc
+    ports:
+      - "8081:80"
+    networks:
+      - default
+    depends_on:
+      - user-db
+
+  user-db:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+    ports:
+      - "27200:27200"
+    volumes:
+      - mongodb_data_container:/data/db/user
+
   plan-db:
     image: mongo:latest
     container_name: maintenance-db
@@ -52,7 +86,36 @@ services:
     ports:
       - "27100:27100"
     volumes:
-      - mongodb_data_container:/data/db
+      - mongodb_data_container:/data/db/plan
+
+  vault:
+    image: hashicorp/vault:latest
+    container_name: vault
+    restart: on-failure:10
+    ports:
+      - "8201:8201"
+    environment:
+      VAULT_ADDR: 'https://0.0.0.0:8201'
+      VAULT_LOCAL_CONFIG: '{"listener": [{"tcp":{"address": "0.0.0.0:8201", "tls_disable": "0", "tls_cert_file":"/data/cert.pem", "tls_key_file":"/data/key.pem"}}], "default_lease_ttl": "168h", "max_lease_ttl": "720h", "ui": true}'
+      VAULT_DEV_ROOT_TOKEN_ID: '00000000-0000-0000-0000-000000000000'
+      VAULT_TOKEN: '00000000-0000-0000-0000-000000000000'
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - ./data:/data
+    healthcheck:
+      retries: 5
+    command: server -dev -dev-root-token-id="00000000-0000-0000-0000-000000000000"
+
+  vault-init:
+    image: hashicorp/vault:latest
+    command: sh "/app/vault_init.sh"
+    depends_on:
+      - vault
+    healthcheck:
+      retries: 5
+    volumes:
+      - ./vault-init/vault_init.sh:/app/vault_init.sh
 
   rabbit:
     image: rabbitmq:management
@@ -87,6 +150,8 @@ services:
       - booking-svc
       - plan-svc
       - maintenance-svc
+      - user-svc
+      - auth-svc
     ports:
     - "4000:4000"
     networks:
